@@ -156,6 +156,10 @@
       </div>
     </div>
 
-    <script src="app.js" defer></script>
+    <!-- API base must match Spring Boot. Change port here if needed. Bump ?v= when app.js changes (cache bust). -->
+    <script>
+      window.__FOOD_API_BASE__ = "http://localhost:8080";
+    </script>
+    <script src="app.js?v=4" defer></script>
   </body>
 </html>

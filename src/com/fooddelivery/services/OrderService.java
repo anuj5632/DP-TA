@@ -51,7 +51,14 @@ public class OrderService {
 
         Order order = orderController.createOrder(customer);
 
+        System.out.println();
+        System.out.println("Building food items...");
+
         for (OrderLineRequest line : request.getItems()) {
+            System.out.println("Processing item: " + line.getName() + " (" + line.getType() + ")");
+            System.out.println("Applying decorators for extras: "
+                    + (line.getExtras() != null ? line.getExtras().toString() : "[]"));
+
             MenuItemType type = parseType(line.getType());
             MenuItemDefinition definition = menuService
                     .findByTypeAndName(type, line.getName())
@@ -62,6 +69,11 @@ public class OrderService {
             orderController.addItemToOrder(order, definition, customization, 1);
         }
 
+        System.out.println();
+        System.out.println("Calculating total amount...");
+        double total = order.getTotalCost();
+        System.out.println("Total Amount: ₹" + Math.round(total));
+
         PaymentStrategy strategy = paymentStrategyFactory.create(
                 request.getPaymentMethod(),
                 request.getPaymentReference());
@@ -70,6 +82,12 @@ public class OrderService {
         if (!paymentResult.isSuccessful()) {
             throw new IllegalStateException(paymentResult.getMessage());
         }
+
+        System.out.println();
+        System.out.println("Payment processed using: " + request.getPaymentMethod());
+        System.out.println("Order placed successfully!");
+        System.out.println("================================");
+        System.out.println();
 
         return toResponse(order);
     }

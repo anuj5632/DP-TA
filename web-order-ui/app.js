@@ -5,7 +5,10 @@
  */
 
 const CATEGORIES = ["pizza", "burger", "fries"];
-const BASE_URL = "http://localhost:8080";
+const BASE_URL =
+  typeof window !== "undefined" && window.__FOOD_API_BASE__
+    ? String(window.__FOOD_API_BASE__).replace(/\/$/, "")
+    : "http://localhost:8080";
 const TYPE_TO_CATEGORY = {
   PIZZA: "pizza",
   BURGER: "burger",
@@ -108,17 +111,34 @@ function normalizeMenuResponse(menuRows) {
 }
 
 async function fetchJson(url, options) {
-  const response = await fetch(url, options);
+  const fetchOptions = {
+    ...options,
+    mode: "cors",
+    cache: "no-store",
+  };
+  let response;
+  try {
+    response = await fetch(url, fetchOptions);
+  } catch (err) {
+    console.error("[Food UI] fetch network error:", url, err);
+    throw new Error(
+      `Cannot reach API (${url}). Is Spring Boot running at ${BASE_URL}?`
+    );
+  }
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
+    console.error("[Food UI] fetch HTTP error:", url, response.status, payload);
     throw new Error(payload.error || `Request failed: ${response.status}`);
   }
   return payload;
 }
 
 async function loadMenuFromApi() {
-  const menuRows = await fetchJson(`${BASE_URL}/api/menu`);
+  const menuUrl = `${BASE_URL}/api/menu`;
+  console.log("[Food UI] GET", menuUrl);
+  const menuRows = await fetchJson(menuUrl);
   normalizeMenuResponse(Array.isArray(menuRows) ? menuRows : []);
+  console.log("[Food UI] Menu loaded, rows:", Array.isArray(menuRows) ? menuRows.length : 0);
 }
 
 function getSelectedItem(category) {
@@ -172,7 +192,7 @@ function buildOrderPayload() {
     items: lines.map((line) => ({
       type: line.item.type,
       name: line.item.name,
-      extras: line.addons,
+      extras: Array.isArray(line.addons) ? line.addons : [],
     })),
     paymentMethod: "UPI",
   };
@@ -417,26 +437,35 @@ function hideConfirmation() {
 }
 
 async function onPlaceOrder() {
+  console.log("Place Order Clicked");
   const payload = buildOrderPayload();
+  console.log("Payload:", payload);
   if (!payload.items.length) {
     window.alert("Please select at least one item before placing an order.");
     return;
   }
 
   const placeOrderButton = document.getElementById("place-order");
+  if (!placeOrderButton) {
+    console.error("[Food UI] Missing #place-order button");
+    return;
+  }
   const originalLabel = placeOrderButton.textContent;
+  const orderUrl = `${BASE_URL}/api/order`;
 
   try {
     placeOrderButton.disabled = true;
     placeOrderButton.textContent = "Placing Order...";
 
-    const orderResponse = await fetchJson(`${BASE_URL}/api/order`, {
+    console.log("[Food UI] POST", orderUrl);
+    const orderResponse = await fetchJson(orderUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
+    console.log("[Food UI] Order response:", orderResponse);
 
     lastPlacedTotal = Number(orderResponse.totalAmount || 0);
     renderOrderPanel();
@@ -482,8 +511,17 @@ async function init() {
     window.alert(`Could not load menu from backend: ${error.message}`);
   }
 
-  document.getElementById("place-order").addEventListener("click", onPlaceOrder);
-  document.getElementById("new-order").addEventListener("click", onBackToMenu);
+  const placeBtn = document.getElementById("place-order");
+  const backBtn = document.getElementById("new-order");
+  if (placeBtn) {
+    placeBtn.addEventListener("click", onPlaceOrder);
+  } else {
+    console.error("[Food UI] init: #place-order not found");
+  }
+  if (backBtn) {
+    backBtn.addEventListener("click", onBackToMenu);
+  }
+  console.log("[Food UI] Ready. API base:", BASE_URL);
 }
 
 document.addEventListener("DOMContentLoaded", init);

@@ -1,6 +1,8 @@
+/Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/api/HealthRestController.java
 /Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/api/MenuRestController.java
 /Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/api/OrderRestController.java
 /Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/api/RestExceptionHandler.java
+/Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/config/CorsConfig.java
 /Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/controllers/OrderController.java
 /Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/dto/CreateOrderRequest.java
 /Users/akshatmodi/Desktop/DP-TA/src/com/fooddelivery/dto/MenuItemResponse.java
