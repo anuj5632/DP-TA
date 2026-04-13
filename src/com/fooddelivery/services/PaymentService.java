@@ -4,7 +4,9 @@ import com.fooddelivery.models.Order;
 import com.fooddelivery.models.OrderStatus;
 import com.fooddelivery.patterns.behavioral.PaymentResult;
 import com.fooddelivery.patterns.behavioral.PaymentStrategy;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentService {
     private final LoggingService logger;
 
@@ -26,7 +28,7 @@ public class PaymentService {
 
         PaymentResult result = paymentStrategy.pay(order.getTotalCost());
         if (result.isSuccessful()) {
-            order.setStatus(OrderStatus.PAID);
+            order.setStatus(OrderStatus.PLACED);
         } else {
             order.setStatus(OrderStatus.FAILED);
         }

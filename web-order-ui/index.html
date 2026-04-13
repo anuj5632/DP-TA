@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order — Fresh Bites</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app" id="order-app">
+      <header class="site-header">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <p class="brand-tagline">Order fresh</p>
+            <h1 class="brand-title">Fresh Bites</h1>
+          </div>
+        </div>
+        <p class="header-note">Build your meal — we’ll bring the flavor.</p>
+      </header>
+
+      <main class="layout">
+        <section class="menu-section" aria-label="Menu">
+          <h2 class="section-heading">Choose your items</h2>
+          <div class="menu-grid">
+            <article class="card" data-category="pizza">
+              <div class="card-header">
+                <span class="card-icon" aria-hidden="true">🍕</span>
+                <h3 class="card-title">Pizza</h3>
+              </div>
+              <label class="field-label" for="pizza-select">Select pizza</label>
+              <select id="pizza-select" class="select" data-category="pizza">
+                <option value="" selected>Select item</option>
+              </select>
+              <fieldset class="addon-fieldset">
+                <legend class="fieldset-legend">Add-ons</legend>
+                <div class="checkbox-grid" id="pizza-addons"></div>
+              </fieldset>
+            </article>
+
+            <article class="card" data-category="burger">
+              <div class="card-header">
+                <span class="card-icon" aria-hidden="true">🍔</span>
+                <h3 class="card-title">Burger</h3>
+              </div>
+              <label class="field-label" for="burger-select">Select burger</label>
+              <select id="burger-select" class="select" data-category="burger">
+                <option value="" selected>Select item</option>
+              </select>
+              <fieldset class="addon-fieldset">
+                <legend class="fieldset-legend">Add-ons</legend>
+                <div class="checkbox-grid" id="burger-addons"></div>
+              </fieldset>
+            </article>
+
+            <article class="card" data-category="fries">
+              <div class="card-header">
+                <span class="card-icon" aria-hidden="true">🍟</span>
+                <h3 class="card-title">Fries</h3>
+              </div>
+              <label class="field-label" for="fries-select">Select fries</label>
+              <select id="fries-select" class="select" data-category="fries">
+                <option value="" selected>Select item</option>
+              </select>
+              <fieldset class="addon-fieldset">
+                <legend class="fieldset-legend">Add-ons</legend>
+                <div class="checkbox-grid" id="fries-addons"></div>
+              </fieldset>
+            </article>
+          </div>
+        </section>
+
+        <aside class="order-panel" aria-label="Your order">
+          <h2 class="panel-title">Your Order</h2>
+          <ul class="order-lines" id="order-lines"></ul>
+          <div class="order-empty" id="order-empty">No items selected</div>
+          <div class="order-footer">
+            <div class="total-row">
+              <span>Total</span>
+              <strong class="total-amount" id="order-total">₹0</strong>
+            </div>
+            <button type="button" class="btn btn-primary" id="place-order">Place Order</button>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <div
+      class="confirmation-screen hidden"
+      id="confirmation-screen"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirmation-title"
+      aria-hidden="true"
+    >
+      <div class="confirmation-inner">
+        <header class="confirmation-header">
+          <p class="confirmation-kicker">Thanks for ordering</p>
+          <h2 class="confirmation-title" id="confirmation-title">Order confirmed</h2>
+          <p class="order-id">
+            Order ID: <span id="confirmation-order-id">—</span>
+          </p>
+        </header>
+
+        <section class="summary-block" aria-label="Order summary">
+          <h3 class="summary-heading">Order summary</h3>
+          <ul class="summary-list" id="confirmation-summary"></ul>
+          <div class="summary-total">
+            <span>Total amount</span>
+            <strong id="confirmation-total">₹0</strong>
+          </div>
+        </section>
+
+        <section class="tracking-block" aria-label="Order tracking">
+          <h3 class="tracking-heading">Track your order</h3>
+          <ol class="timeline" id="tracking-timeline">
+            <li class="timeline-step" data-step="placed">
+              <span class="timeline-dot"></span>
+              <div class="timeline-body">
+                <span class="timeline-label">Order Placed</span>
+                <span class="timeline-status" data-status></span>
+              </div>
+            </li>
+            <li class="timeline-step" data-step="preparing">
+              <span class="timeline-dot"></span>
+              <div class="timeline-body">
+                <span class="timeline-label">Preparing</span>
+                <span class="timeline-status" data-status></span>
+              </div>
+            </li>
+            <li class="timeline-step" data-step="ready">
+              <span class="timeline-dot"></span>
+              <div class="timeline-body">
+                <span class="timeline-label">Ready</span>
+                <span class="timeline-status" data-status></span>
+              </div>
+            </li>
+            <li class="timeline-step" data-step="out">
+              <span class="timeline-dot"></span>
+              <div class="timeline-body">
+                <span class="timeline-label">Out for Delivery</span>
+                <span class="timeline-status" data-status></span>
+              </div>
+            </li>
+            <li class="timeline-step" data-step="delivered">
+              <span class="timeline-dot"></span>
+              <div class="timeline-body">
+                <span class="timeline-label">Delivered</span>
+                <span class="timeline-status" data-status></span>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <button type="button" class="btn btn-secondary" id="new-order">Back to Menu</button>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

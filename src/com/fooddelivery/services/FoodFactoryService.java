@@ -6,7 +6,9 @@ import com.fooddelivery.patterns.structural.Burger;
 import com.fooddelivery.patterns.structural.FoodItem;
 import com.fooddelivery.patterns.structural.Pizza;
 import com.fooddelivery.patterns.structural.Sandwich;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FoodFactoryService {
     public FoodItem createBaseFood(MenuItemDefinition definition) {
         MenuItemType type = definition.getType();

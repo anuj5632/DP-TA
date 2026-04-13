@@ -2,7 +2,9 @@ package com.fooddelivery.services;
 
 import com.fooddelivery.models.Order;
 import com.fooddelivery.models.OrderItem;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BillService {
     public String generateBill(Order order) {
         StringBuilder builder = new StringBuilder();

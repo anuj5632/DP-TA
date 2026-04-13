@@ -14,9 +14,11 @@ import com.fooddelivery.services.FoodFactoryService;
 import com.fooddelivery.services.LoggingService;
 import com.fooddelivery.services.MenuService;
 import com.fooddelivery.services.PaymentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderController {
     private final MenuService menuService;
     private final FoodFactoryService foodFactoryService;

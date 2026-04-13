@@ -6,7 +6,9 @@ import com.fooddelivery.patterns.structural.ExtraCheeseDecorator;
 import com.fooddelivery.patterns.structural.ExtraSauceDecorator;
 import com.fooddelivery.patterns.structural.FoodItem;
 import com.fooddelivery.patterns.structural.ToppingDecorator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomizationService {
     public FoodItem applyCustomizations(FoodItem baseFoodItem, CustomizationRequest customizationRequest) {
         FoodItem result = baseFoodItem;
